@@ -14,19 +14,20 @@ pipeline {
   stages {
     stage("CodeCheckout"){
         steps{
+          git branch: 'php_server-Proj' , url: 'https://github.com/guptabrijesh760/php_server-Proj.git'
             
         }
     }
 
-    stage('KillOldContainer') { 
+    stage('PHPcodeDeploy') { 
         steps{
-            sh 'docker rm -f serverci1'
+            sh "sudo cp -r /home/ec2-user/jenkins/phpdevelopment/src/* /var/www/html/"
         }
     }
 
-    stage("BuildContainer"){
+    stage("Retart Server"){
         steps{
-            sh 'docker run -dit --name serverci1 $CONTAINERIMAGE'
+            sh 'systemctl restart httpd'
         }
     }
   }  
